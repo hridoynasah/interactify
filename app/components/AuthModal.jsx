@@ -1,8 +1,66 @@
+"use client";
+import { registerUser } from "@/server-actions";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 
 export default function AuthModal({ isOpen, onClose, type }) {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleForm = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccessMessage("");
+
+    if (type === "signup") {
+      if (formData.password !== formData.confirmPassword) {
+        setError("Passwords do not match.");
+        return;
+      }
+
+      try {
+        const response = await registerUser({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          password: formData.password,
+        });
+
+        if (response.success) {
+          setSuccessMessage("Registration successful! You can now log in.");
+          setFormData({
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+          });
+        } else {
+          setError(response.error || "An error occurred during registration.");
+        }
+      } catch (err) {
+        setError(err.message || "Failed to register user.");
+      }
+    }
+  };
+
   return (
     <Transition show={isOpen} as={Fragment}>
       <Dialog onClose={onClose} className="relative z-50">
@@ -41,7 +99,7 @@ export default function AuthModal({ isOpen, onClose, type }) {
                 </button>
               </div>
 
-              <form className="space-y-4">
+              <form onSubmit={handleForm} className="space-y-4">
                 {type === "signup" && (
                   <div className="flex gap-2">
                     <div>
@@ -50,6 +108,9 @@ export default function AuthModal({ isOpen, onClose, type }) {
                       </label>
                       <input
                         type="text"
+                        name="firstName"
+                        value={formData.firstName}
+                        onChange={handleInputChange}
                         className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
                       />
                     </div>
@@ -59,6 +120,9 @@ export default function AuthModal({ isOpen, onClose, type }) {
                       </label>
                       <input
                         type="text"
+                        name="lastName"
+                        value={formData.lastName}
+                        onChange={handleInputChange}
                         className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
                       />
                     </div>
@@ -70,6 +134,9 @@ export default function AuthModal({ isOpen, onClose, type }) {
                   </label>
                   <input
                     type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
                     className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
                   />
                 </div>
@@ -79,6 +146,9 @@ export default function AuthModal({ isOpen, onClose, type }) {
                   </label>
                   <input
                     type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleInputChange}
                     className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
                   />
                 </div>
@@ -89,35 +159,17 @@ export default function AuthModal({ isOpen, onClose, type }) {
                     </label>
                     <input
                       type="password"
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
+                      onChange={handleInputChange}
                       className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
                     />
                   </div>
                 )}
-                <div className="flex justify-between text-sm">
-                  {type === "signin" ? (
-                    <>
-                      <a
-                        href="#"
-                        className="text-primary hover:text-primary-dark"
-                      >
-                        Don&apos;t have an account?
-                      </a>
-                      <a
-                        href="#"
-                        className="text-primary hover:text-primary-dark"
-                      >
-                        Forgot Password?
-                      </a>
-                    </>
-                  ) : (
-                    <a
-                      href="#"
-                      className="text-primary hover:text-primary-dark"
-                    >
-                      Already have an account?
-                    </a>
-                  )}
-                </div>
+                {error && <p className="text-sm text-red-500">{error}</p>}
+                {successMessage && (
+                  <p className="text-sm text-green-500">{successMessage}</p>
+                )}
                 <button
                   type="submit"
                   className="w-full bg-primary hover:bg-primary-dark text-white py-2 rounded-md transition-colors"
