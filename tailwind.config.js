@@ -15,8 +15,10 @@ module.exports = {
       },
     },
   },
-  plugins: [require("daisyui")],
-  daisyui: {
-    themes: ["night"],
-  },
+  plugins: [
+    require("daisyui")({
+      themes: ["night"],
+    }),
+    require("prettier-plugin-tailwindcss")
+  ],
 };
