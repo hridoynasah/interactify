@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Logo from "./Logo";
 import AuthModal from "./AuthModal";
+import Link from "next/link";
 
 export default function Navbar() {
   const [isSignInOpen, setIsSignInOpen] = useState(false);
@@ -17,30 +18,30 @@ export default function Navbar() {
             </div>
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
-                <a
+                <Link
                   href="#"
                   className="text-gray-300 hover:text-white px-3 py-2"
                 >
                   Home
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="text-gray-300 hover:text-white px-3 py-2"
                 >
                   About
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="text-gray-300 hover:text-white px-3 py-2"
                 >
                   Features
-                </a>
-                <a
+                </Link>
+                <Link
                   href="#"
                   className="text-gray-300 hover:text-white px-3 py-2"
                 >
                   Contact
-                </a>
+                </Link>
               </div>
             </div>
             <div className="flex items-center space-x-4">
