@@ -1,9 +1,11 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
 import { BookmarkIcon, LogOut, Settings, Upload } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const ProfileMenu = () => {
   const { authData, logout } = useAuth();
+  const router = useRouter();
 
   const menuItems = [
     {
@@ -14,7 +16,7 @@ const ProfileMenu = () => {
     {
       icon: Upload,
       text: "Create Courses",
-      action: () => console.log("Saved Courses clicked"),
+      action: () => router.push("/create-course"),
     },
     {
       icon: Settings,

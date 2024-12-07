@@ -1,4 +1,5 @@
 "use server";
+import { Courses } from "@/data/models/coursesSchema";
 import { Users } from "@/data/models/usersSchema";
 import connectMongodb from "@/services/ConnectMongoose";
 
@@ -50,5 +51,15 @@ export const userLogin = async (data) => {
       success: false,
       error: error.message || "An unexpected error occurred. Please try again.",
     };
+  }
+};
+
+export const getCourses = async () => {
+  try {
+    await connectMongodb();
+    const result = await Courses.find({}).lean();
+    return JSON.parse(JSON.stringify(result));
+  } catch (error) {
+    console.error(error);
   }
 };
