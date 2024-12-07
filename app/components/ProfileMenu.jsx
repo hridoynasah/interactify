@@ -1,6 +1,6 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
-import { BookmarkIcon, LogOut, Settings } from "lucide-react";
+import { BookmarkIcon, LogOut, Settings, Upload } from "lucide-react";
 
 const ProfileMenu = () => {
   const { authData, logout } = useAuth();
@@ -9,6 +9,11 @@ const ProfileMenu = () => {
     {
       icon: BookmarkIcon,
       text: "Saved Courses",
+      action: () => console.log("Saved Courses clicked"),
+    },
+    {
+      icon: Upload,
+      text: "Create Courses",
       action: () => console.log("Saved Courses clicked"),
     },
     {
