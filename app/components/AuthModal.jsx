@@ -1,6 +1,7 @@
 "use client";
-import { registerUser } from "@/server-actions";
+import { registerUser, userLogin } from "@/server-actions";
 import { Dialog, Transition } from "@headlessui/react";
+import { useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 
@@ -15,6 +16,13 @@ export default function AuthModal({ isOpen, onClose, type }) {
 
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const router = useRouter();
+
+  const handleClose = () => {
+    setError("");
+    setSuccessMessage("");
+    onClose();
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -58,12 +66,39 @@ export default function AuthModal({ isOpen, onClose, type }) {
       } catch (err) {
         setError(err.message || "Failed to register user.");
       }
+    } else if (type === "signin") {
+      try {
+        const response = await userLogin({
+          email: formData.email,
+          password: formData.password,
+        });
+
+        if (response.success) {
+          setSuccessMessage("Sign-in successful! Redirecting...");
+
+          setTimeout(() => {
+            router.push("/courses");
+            handleClose();
+            setFormData({
+              firstName: "",
+              lastName: "",
+              email: "",
+              password: "",
+              confirmPassword: "",
+            });
+          }, 2000);
+        } else {
+          setError(response.error || "Invalid email or password.");
+        }
+      } catch (err) {
+        setError(err.message || "Failed to log in.");
+      }
     }
   };
 
   return (
     <Transition show={isOpen} as={Fragment}>
-      <Dialog onClose={onClose} className="relative z-50">
+      <Dialog onClose={handleClose} className="relative z-50">
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -92,7 +127,7 @@ export default function AuthModal({ isOpen, onClose, type }) {
                   {type === "signin" ? "Sign In" : "Sign Up"}
                 </Dialog.Title>
                 <button
-                  onClick={onClose}
+                  onClick={handleClose}
                   className="text-gray-400 hover:text-white"
                 >
                   <FaTimes />
@@ -107,6 +142,7 @@ export default function AuthModal({ isOpen, onClose, type }) {
                         First Name
                       </label>
                       <input
+                        required
                         type="text"
                         name="firstName"
                         value={formData.firstName}
@@ -119,6 +155,7 @@ export default function AuthModal({ isOpen, onClose, type }) {
                         Last Name
                       </label>
                       <input
+                        required
                         type="text"
                         name="lastName"
                         value={formData.lastName}
@@ -133,6 +170,7 @@ export default function AuthModal({ isOpen, onClose, type }) {
                     Email Address
                   </label>
                   <input
+                    required
                     type="email"
                     name="email"
                     value={formData.email}
@@ -145,6 +183,7 @@ export default function AuthModal({ isOpen, onClose, type }) {
                     Password
                   </label>
                   <input
+                    required
                     type="password"
                     name="password"
                     value={formData.password}
@@ -158,6 +197,7 @@ export default function AuthModal({ isOpen, onClose, type }) {
                       Confirm Password
                     </label>
                     <input
+                      required
                       type="password"
                       name="confirmPassword"
                       value={formData.confirmPassword}
