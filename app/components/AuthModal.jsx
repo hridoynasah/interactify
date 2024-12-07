@@ -7,6 +7,8 @@ import { Fragment, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 
 export default function AuthModal({ isOpen, onClose, type }) {
+  const { authData } = useAuth();
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -35,6 +37,10 @@ export default function AuthModal({ isOpen, onClose, type }) {
     e.preventDefault();
     setError("");
     setSuccessMessage("");
+
+    if (authData) {
+      setError("User already authorized");
+    }
 
     if (type === "signup") {
       if (formData.password !== formData.confirmPassword) {
@@ -198,6 +204,7 @@ export default function AuthModal({ isOpen, onClose, type }) {
                   <p className="text-sm text-green-500">{successMessage}</p>
                 )}
                 <button
+                  disabled={authData}
                   type="submit"
                   className="w-full bg-primary hover:bg-primary-dark text-white py-2 rounded-md transition-colors"
                 >
