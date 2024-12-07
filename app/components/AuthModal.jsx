@@ -84,14 +84,13 @@ export default function AuthModal({ isOpen, onClose, type }) {
           setTimeout(() => {
             router.push("/courses");
             handleClose();
+            setIsLoading(false);
           }, 2000);
         } else {
           setError(response.error || "Invalid email or password.");
         }
       } catch (err) {
         setError(err.message || "Failed to log in.");
-      } finally {
-        setIsLoading(false);
       }
     }
   };
