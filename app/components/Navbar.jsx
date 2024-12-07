@@ -5,11 +5,12 @@ import Logo from "./Logo";
 import AuthModal from "./AuthModal";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
+import ProfileDropdown from "./ProfileDropdown";
 
 export default function Navbar() {
   const [isSignInOpen, setIsSignInOpen] = useState(false);
   const [isSignUpOpen, setIsSignUpOpen] = useState(false);
-  const { authData, logout } = useAuth();
+  const { authData } = useAuth();
 
   return (
     <nav className="fixed top-0 left-0 right-0 bg-dark-deeper/80 backdrop-blur-sm z-50">
@@ -55,13 +56,7 @@ export default function Navbar() {
           <div className="flex items-center space-x-4">
             {authData ? (
               <>
-                <span className="text-white">{authData.email}</span>
-                <button
-                  onClick={logout}
-                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md"
-                >
-                  Logout
-                </button>
+                <ProfileDropdown />
               </>
             ) : (
               <>
