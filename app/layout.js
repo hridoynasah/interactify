@@ -3,6 +3,7 @@ import "./globals.css";
 import connectMongodb from "@/services/ConnectMongoose";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import { AuthProvider } from "@/context/AuthContext";
 
 const fontStyle = Barlow({
   subsets: ["latin"],
@@ -19,7 +20,13 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <body className={fontStyle.className}> <Navbar></Navbar>{children} <Footer></Footer></body>
+      <body className={fontStyle.className}>
+        <AuthProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </AuthProvider>
+      </body>
     </html>
   );
 }

@@ -1,4 +1,5 @@
 "use client";
+import { useAuth } from "@/context/AuthContext";
 import { registerUser, userLogin } from "@/server-actions";
 import { Dialog, Transition } from "@headlessui/react";
 import { useRouter } from "next/navigation";
@@ -16,6 +17,7 @@ export default function AuthModal({ isOpen, onClose, type }) {
 
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const { login } = useAuth();
   const router = useRouter();
 
   const handleClose = () => {
@@ -26,10 +28,7 @@ export default function AuthModal({ isOpen, onClose, type }) {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleForm = async (e) => {
@@ -44,13 +43,7 @@ export default function AuthModal({ isOpen, onClose, type }) {
       }
 
       try {
-        const response = await registerUser({
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          password: formData.password,
-        });
-
+        const response = await registerUser(formData);
         if (response.success) {
           setSuccessMessage("Registration successful! You can now log in.");
           setFormData({
@@ -74,18 +67,12 @@ export default function AuthModal({ isOpen, onClose, type }) {
         });
 
         if (response.success) {
+          login(response.user); // Save login data
           setSuccessMessage("Sign-in successful! Redirecting...");
 
           setTimeout(() => {
             router.push("/courses");
             handleClose();
-            setFormData({
-              firstName: "",
-              lastName: "",
-              email: "",
-              password: "",
-              confirmPassword: "",
-            });
           }, 2000);
         } else {
           setError(response.error || "Invalid email or password.");
