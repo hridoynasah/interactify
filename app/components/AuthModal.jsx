@@ -17,6 +17,8 @@ export default function AuthModal({ isOpen, onClose, type }) {
     confirmPassword: "",
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const { login } = useAuth();
@@ -37,6 +39,7 @@ export default function AuthModal({ isOpen, onClose, type }) {
     e.preventDefault();
     setError("");
     setSuccessMessage("");
+    setIsLoading(true);
 
     if (authData) {
       setError("User already authorized");
@@ -64,6 +67,8 @@ export default function AuthModal({ isOpen, onClose, type }) {
         }
       } catch (err) {
         setError(err.message || "Failed to register user.");
+      } finally {
+        setIsLoading(false);
       }
     } else if (type === "signin") {
       try {
@@ -73,7 +78,7 @@ export default function AuthModal({ isOpen, onClose, type }) {
         });
 
         if (response.success) {
-          login(response.user); // Save login data
+          login(response.user);
           setSuccessMessage("Sign-in successful! Redirecting...");
 
           setTimeout(() => {
@@ -85,6 +90,8 @@ export default function AuthModal({ isOpen, onClose, type }) {
         }
       } catch (err) {
         setError(err.message || "Failed to log in.");
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -203,13 +210,22 @@ export default function AuthModal({ isOpen, onClose, type }) {
                 {successMessage && (
                   <p className="text-sm text-green-500">{successMessage}</p>
                 )}
-                <button
-                  disabled={authData}
-                  type="submit"
-                  className="w-full bg-primary hover:bg-primary-dark text-white py-2 rounded-md transition-colors"
-                >
-                  {type === "signin" ? "Sign In" : "Sign Up"}
-                </button>
+                {isLoading ? (
+                  <button
+                    disabled
+                    className="w-full bg-primary hover:bg-primary-dark text-white py-2 rounded-md transition-colors"
+                  >
+                    Loading...
+                  </button>
+                ) : (
+                  <button
+                    disabled={authData || isLoading}
+                    type="submit"
+                    className="w-full bg-primary hover:bg-primary-dark text-white py-2 rounded-md transition-colors"
+                  >
+                    {type === "signin" ? "Sign In" : "Sign Up"}
+                  </button>
+                )}
               </form>
             </Dialog.Panel>
           </Transition.Child>
