@@ -1,7 +1,6 @@
-import React from 'react';
-import AboutHero from '../components/About/AboutHero';
-import AboutCards from '../components/About/AboutCards';
-import Stats from '../components/About/Stats';
+import AboutCards from "../components/about/AboutCards";
+import AboutHero from "../components/about/AboutHero";
+import Stats from "../components/about/Stats";
 
 export default function About() {
   return (

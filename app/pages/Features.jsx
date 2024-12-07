@@ -1,6 +1,5 @@
-import React from 'react';
-import FeatureHero from '../components/Features/FeatureHero';
-import FeatureGrid from '../components/Features/FeatureGrid';
+import FeatureGrid from "../components/features/FeatureGrid";
+import FeatureHero from "../components/features/FeatureHero";
 
 export default function Features() {
   return (

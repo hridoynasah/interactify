@@ -1,10 +1,6 @@
-"use client";
-import { useAuth } from "@/context/AuthContext";
-import { ArrowLeft, X } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 export default function CreateCourse() {
-  const { authData } = useAuth();
-
   return (
     <div className="min-h-screen bg-black text-white">
       <div className="max-w-3xl mx-auto p-6">
