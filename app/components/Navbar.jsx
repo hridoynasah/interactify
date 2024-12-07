@@ -25,19 +25,25 @@ export default function Navbar() {
                   Home
                 </Link>
                 <Link
+                  href="/courses"
+                  className="text-gray-300 hover:text-white px-3 py-2"
+                >
+                  Courses
+                </Link>
+                <Link
                   href="/about"
                   className="text-gray-300 hover:text-white px-3 py-2"
                 >
                   About
                 </Link>
                 <Link
-                  href="#"
+                  href="/features"
                   className="text-gray-300 hover:text-white px-3 py-2"
                 >
                   Features
                 </Link>
                 <Link
-                  href="#"
+                  href="/contact"
                   className="text-gray-300 hover:text-white px-3 py-2"
                 >
                   Contact
