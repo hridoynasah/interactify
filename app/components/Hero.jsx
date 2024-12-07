@@ -1,4 +1,5 @@
 import { Sparkles } from "lucide-react";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -12,21 +13,28 @@ export default function Hero() {
           </div>
 
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-            Welcome to <span className="text-blue-500">Interactify</span>
+            Unlock Your Potential with{" "}
+            <span className="text-blue-500">Interactify</span> Learning
           </h1>
 
           <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-8">
-            Connect, share, and engage with a global community. Experience
-            social networking reimagined for the modern age.
+            Experience education like never before. Engage, explore, and excel
+            with Interactify&apos;s dynamic and immersive courses.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-lg font-medium transition duration-200">
+            <Link
+              href={"/courses"}
+              className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-lg font-medium transition duration-200"
+            >
               Get Started
-            </button>
-            <button className="px-8 py-3 bg-black/30 hover:bg-black/40 text-white rounded-lg text-lg font-medium border border-blue-500 backdrop-blur-sm transition duration-200">
+            </Link>
+            <Link
+              href={"/about"}
+              className="px-8 py-3 bg-black/30 hover:bg-black/40 text-white rounded-lg text-lg font-medium border border-blue-500 backdrop-blur-sm transition duration-200"
+            >
               Learn More
-            </button>
+            </Link>
           </div>
         </div>
       </div>

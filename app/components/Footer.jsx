@@ -1,5 +1,11 @@
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaGithub } from 'react-icons/fa';
-import Logo from './Logo';
+import {
+  FaFacebook,
+  FaTwitter,
+  FaInstagram,
+  FaLinkedin,
+  FaGithub,
+} from "react-icons/fa";
+import Logo from "./Logo";
 
 export default function Footer() {
   return (
@@ -8,7 +14,10 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1">
             <Logo />
-            <p className="mt-4">Connecting people, sharing moments, and building communities worldwide.</p>
+            <p className="mt-4">
+              Connecting learners, sharing knowledge, and building educational
+              communities worldwide.
+            </p>
             <div className="flex space-x-4 mt-6">
               <FaFacebook className="text-xl hover:text-primary cursor-pointer" />
               <FaTwitter className="text-xl hover:text-primary cursor-pointer" />
@@ -20,19 +29,51 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="hover:text-primary">Home</a></li>
-              <li><a href="#" className="hover:text-primary">About</a></li>
-              <li><a href="#" className="hover:text-primary">Features</a></li>
-              <li><a href="#" className="hover:text-primary">Contact</a></li>
+              <li>
+                <a href="#" className="hover:text-primary">
+                  Home
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-primary">
+                  About
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-primary">
+                  Features
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-primary">
+                  Contact
+                </a>
+              </li>
             </ul>
           </div>
           <div>
             <h3 className="text-white font-semibold mb-4">Legal</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="hover:text-primary">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-primary">Terms of Service</a></li>
-              <li><a href="#" className="hover:text-primary">Cookie Policy</a></li>
-              <li><a href="#" className="hover:text-primary">Community Guidelines</a></li>
+              <li>
+                <a href="#" className="hover:text-primary">
+                  Privacy Policy
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-primary">
+                  Terms of Service
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-primary">
+                  Cookie Policy
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-primary">
+                  Community Guidelines
+                </a>
+              </li>
             </ul>
           </div>
         </div>
