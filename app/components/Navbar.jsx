@@ -19,13 +19,13 @@ export default function Navbar() {
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
                 <Link
-                  href="#"
+                  href="/"
                   className="text-gray-300 hover:text-white px-3 py-2"
                 >
                   Home
                 </Link>
                 <Link
-                  href="#"
+                  href="/about"
                   className="text-gray-300 hover:text-white px-3 py-2"
                 >
                   About

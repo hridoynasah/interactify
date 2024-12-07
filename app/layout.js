@@ -1,6 +1,8 @@
 import { Barlow } from "next/font/google";
 import "./globals.css";
 import connectMongodb from "@/services/ConnectMongoose";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 const fontStyle = Barlow({
   subsets: ["latin"],
@@ -17,7 +19,7 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <body className={fontStyle.className}>{children}</body>
+      <body className={fontStyle.className}> <Navbar></Navbar>{children} <Footer></Footer></body>
     </html>
   );
 }
