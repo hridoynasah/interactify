@@ -11,7 +11,7 @@ const ProfileMenu = () => {
     {
       icon: BookmarkIcon,
       text: "Saved Courses",
-      action: () => console.log("Saved Courses clicked"),
+      action: () => router.push("/courses"),
     },
     {
       icon: Upload,

@@ -88,9 +88,11 @@ export default function AuthModal({ isOpen, onClose, type }) {
           }, 2000);
         } else {
           setError(response.error || "Invalid email or password.");
+          setIsLoading(false);
         }
       } catch (err) {
         setError(err.message || "Failed to log in.");
+        setIsLoading(false);
       }
     }
   };
