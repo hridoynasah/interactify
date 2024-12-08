@@ -78,7 +78,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-gray-800 mt-12 pt-8 text-center">
-          <p>© 2024 Interactify. All rights reserved.</p>
+          <p>© 2024 The Originals. All rights reserved.</p>
         </div>
       </div>
     </footer>
