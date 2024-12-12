@@ -1,6 +1,6 @@
 "use client";
 import { useAuth } from "@/context/AuthContext";
-import { BookmarkIcon, LogOut, Settings, Upload } from "lucide-react";
+import { BookmarkIcon, LogOut, Settings, Upload, Users } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
@@ -16,13 +16,18 @@ const ProfileMenu = () => {
   const menuItems = [
     {
       icon: BookmarkIcon,
-      text: "Saved Courses",
-      action: () => router.push("/courses"),
+      text: "My Courses",
+      action: () => router.push("/my-courses"),
     },
     {
       icon: Upload,
       text: "Create Courses",
       action: () => router.push("/create-course"),
+    },
+    {
+      icon: Users,
+      text: "Community",
+      action: () => console.log("Settings clicked"),
     },
     {
       icon: Settings,
