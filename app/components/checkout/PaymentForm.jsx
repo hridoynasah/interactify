@@ -1,8 +1,43 @@
 "use client";
-import { useState } from "react";
-import { FaCreditCard, FaLock, FaShieldAlt } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { FaCreditCard, FaLock } from "react-icons/fa";
+import { useParams } from "next/navigation";
+import LoadingUi from "../LoadingUi";
+import { getCourseById } from "@/server-actions";
 
 const PaymentForm = () => {
+  const params = useParams();
+  const courseId = params?.courseId;
+  const [courseData, setCourseData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!courseId) return;
+
+    const fetchCourseData = async () => {
+      try {
+        setLoading(true);
+        const course = await getCourseById(courseId);
+        setCourseData(course);
+      } catch (err) {
+        console.error("Failed to fetch course data:", err);
+        setError("Failed to load course data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourseData();
+  }, [courseId]);
+
+  if (loading) return <LoadingUi />;
+  if (error) return <div className="text-red-500">{error}</div>;
+
+  return <PaymentDetails courseData={courseData} />;
+};
+
+const PaymentDetails = ({ courseData }) => {
   const [formData, setFormData] = useState({
     cardNumber: "",
     expiry: "",
@@ -15,7 +50,6 @@ const PaymentForm = () => {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(null);
 
-  // Format card number with spaces
   const formatCardNumber = (value) => {
     const v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
     const matches = v.match(/\d{4,16}/g);
@@ -26,14 +60,9 @@ const PaymentForm = () => {
       parts.push(match.substring(i, i + 4));
     }
 
-    if (parts.length) {
-      return parts.join(" ");
-    } else {
-      return value;
-    }
+    return parts.length ? parts.join(" ") : value;
   };
 
-  // Format expiry date
   const formatExpiry = (value) => {
     const v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
     if (v.length >= 2) {
@@ -78,7 +107,9 @@ const PaymentForm = () => {
           </h2>
           <div className="flex justify-between mb-2">
             <span className="text-gray-600 dark:text-gray-300">Subtotal</span>
-            <span className="text-gray-800 dark:text-white">$99.00</span>
+            <span className="text-gray-800 dark:text-white">
+              ${courseData?.price}
+            </span>
           </div>
           <div className="flex justify-between mb-2">
             <span className="text-gray-600 dark:text-gray-300">Tax</span>
@@ -90,7 +121,7 @@ const PaymentForm = () => {
                 Total
               </span>
               <span className="font-semibold text-gray-800 dark:text-white">
-                $108.90
+                ${courseData?.price + 9.9}
               </span>
             </div>
           </div>
@@ -188,94 +219,70 @@ const PaymentForm = () => {
               name="address"
               value={formData.address}
               onChange={handleInputChange}
-              placeholder="123 Main St"
+              placeholder="1234 Main St"
               className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
               required
             />
           </div>
 
-          {/* City and Zip Code */}
-          <div className="grid grid-cols-2 gap-4 mb-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                City
-              </label>
-              <input
-                type="text"
-                name="city"
-                value={formData.city}
-                onChange={handleInputChange}
-                placeholder="New York"
-                className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                ZIP Code
-              </label>
-              <input
-                type="text"
-                name="zipCode"
-                value={formData.zipCode}
-                onChange={handleInputChange}
-                placeholder="10001"
-                className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
-                required
-              />
-            </div>
+          {/* City */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              City
+            </label>
+            <input
+              type="text"
+              name="city"
+              value={formData.city}
+              onChange={handleInputChange}
+              placeholder="City"
+              className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
+              required
+            />
+          </div>
+
+          {/* Zip Code */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              ZIP Code
+            </label>
+            <input
+              type="number"
+              name="zipCode"
+              value={formData.zipCode}
+              onChange={handleInputChange}
+              placeholder="12345"
+              maxLength="10"
+              className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
+              required
+            />
           </div>
 
           {/* Submit Button */}
           <button
             type="submit"
+            className={`w-full py-2 px-4 text-white font-semibold rounded-md ${
+              loading
+                ? "bg-gray-600 cursor-not-allowed"
+                : "bg-primary hover:bg-primary-dark focus:outline-none"
+            }`}
             disabled={loading}
-            className="w-full bg-primary hover:bg-primary-dark text-white py-2 rounded-md transition-colors"
           >
-            {loading ? (
-              <span className="flex items-center justify-center">
-                <svg
-                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-                Processing...
-              </span>
-            ) : (
-              "Pay $108.90"
-            )}
+            {loading ? "Processing..." : "Pay Now"}
           </button>
 
-          {/* Status Messages */}
-          {status === "success" && (
-            <div className="mt-4 p-4 bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-100 rounded-md flex items-center">
-              <FaShieldAlt className="mr-2" />
-              Payment processed successfully!
+          {/* Payment Status */}
+          {status && (
+            <div
+              className={`mt-4 text-center font-semibold ${
+                status === "success" ? "text-green-500" : "text-red-500"
+              }`}
+            >
+              {status === "success"
+                ? "Payment Successful!"
+                : "Payment Failed. Please try again."}
             </div>
           )}
-
-          {/* Security Badge */}
-          <div className="mt-6 flex items-center justify-center text-gray-500 dark:text-gray-400">
-            <FaLock className="mr-2" />
-            <span className="text-sm">
-              Secure 256-bit SSL encrypted payment
-            </span>
-          </div>
         </form>
       </div>
     </div>

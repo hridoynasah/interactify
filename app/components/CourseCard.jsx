@@ -39,7 +39,7 @@ const CourseCard = ({ course }) => {
           <span className="text-2xl font-bold text-white">${course.price}</span>
           <div className="space-x-2">
             <Link
-              href={course.link}
+              href={`checkout/${course._id}`}
               className="px-4 py-2 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
             >
               Buy Now

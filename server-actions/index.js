@@ -63,3 +63,13 @@ export const getCourses = async () => {
     console.error(error);
   }
 };
+
+export const getCourseById = async (id) => {
+  try {
+    await connectMongodb();
+    const result = await Courses.findById(id);
+    return JSON.parse(JSON.stringify(result));
+  } catch (error) {
+    console.error(error);
+  }
+};
