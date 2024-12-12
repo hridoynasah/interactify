@@ -20,7 +20,7 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <body className={fontStyle.className}>
+      <body className={`${fontStyle.className} bg-dark-deeper`}>
         <AuthProvider>
           <Navbar />
           {children}

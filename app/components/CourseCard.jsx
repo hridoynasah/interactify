@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const CourseCard = ({ course }) => {
   return (
-    <div className="bg-white/10 rounded-xl overflow-hidden shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl backdrop-blur-sm">
+    <div className="bg-white/10 rounded-xl overflow-hidden shadow-lg backdrop-blur-sm">
       <Image
         width={300}
         height={300}
@@ -42,7 +42,7 @@ const CourseCard = ({ course }) => {
               href={course.link}
               className="px-4 py-2 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
             >
-              Start Learning
+              Buy Now
             </Link>
           </div>
         </div>

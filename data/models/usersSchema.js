@@ -18,18 +18,12 @@ const userSchema = new Schema(
       unique: true,
       trim: true,
       lowercase: true,
-      validate: {
-        validator: function (email) {
-          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        },
-        message: "Invalid email format",
-      },
     },
     password: {
       type: String,
       required: true,
-      minlength: 6,
     },
+    purchased_courses: [{ type: Schema.Types.ObjectId, ref: "enrollments" }],
   },
   {
     timestamps: true,
