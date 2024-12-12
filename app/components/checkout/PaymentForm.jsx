@@ -1,9 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import { FaCreditCard, FaLock } from "react-icons/fa";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import LoadingUi from "../LoadingUi";
 import { getCourseById } from "@/server-actions";
+import { useAuth } from "@/context/AuthContext";
+import { toast } from "react-toastify";
 
 const PaymentForm = () => {
   const params = useParams();
@@ -11,9 +13,15 @@ const PaymentForm = () => {
   const [courseData, setCourseData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { authData } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
-    if (!courseId) return;
+    if (!authData) {
+      router.push("/courses");
+      toast.warning("Please sign in for purchase");
+      return;
+    }
 
     const fetchCourseData = async () => {
       try {
@@ -105,6 +113,12 @@ const PaymentDetails = ({ courseData }) => {
           <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
             Payment Summary
           </h2>
+          <div className="flex justify-between mb-2">
+            <span className="text-gray-600 dark:text-gray-300">Course</span>
+            <span className="text-gray-800 dark:text-white">
+              {courseData?.title}
+            </span>
+          </div>
           <div className="flex justify-between mb-2">
             <span className="text-gray-600 dark:text-gray-300">Subtotal</span>
             <span className="text-gray-800 dark:text-white">

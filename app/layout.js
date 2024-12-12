@@ -4,6 +4,8 @@ import connectMongodb from "@/services/ConnectMongoose";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { AuthProvider } from "@/context/AuthContext";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const fontStyle = Barlow({
   subsets: ["latin"],
@@ -24,6 +26,7 @@ export default async function RootLayout({ children }) {
         <AuthProvider>
           <Navbar />
           {children}
+          <ToastContainer theme="colored" position="top-center" />
           <Footer />
         </AuthProvider>
       </body>

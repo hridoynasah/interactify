@@ -2,10 +2,16 @@
 import { useAuth } from "@/context/AuthContext";
 import { BookmarkIcon, LogOut, Settings, Upload } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const ProfileMenu = () => {
   const { authData, logout } = useAuth();
   const router = useRouter();
+
+  const handleLogout = () => {
+    logout();
+    toast.success("Logout successful!");
+  };
 
   const menuItems = [
     {
@@ -26,7 +32,7 @@ const ProfileMenu = () => {
     {
       icon: LogOut,
       text: "Logout",
-      action: () => logout(),
+      action: () => handleLogout(),
     },
   ];
 

@@ -2,9 +2,9 @@
 import { useAuth } from "@/context/AuthContext";
 import { registerUser, userLogin } from "@/server-actions";
 import { Dialog, Transition } from "@headlessui/react";
-import { useRouter } from "next/navigation";
 import { Fragment, useState } from "react";
 import { FaTimes } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export default function AuthModal({ isOpen, onClose, type }) {
   const { authData } = useAuth();
@@ -22,11 +22,17 @@ export default function AuthModal({ isOpen, onClose, type }) {
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const { login } = useAuth();
-  const router = useRouter();
 
   const handleClose = () => {
     setError("");
     setSuccessMessage("");
+    setFormData({
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
     onClose();
   };
 
@@ -79,13 +85,9 @@ export default function AuthModal({ isOpen, onClose, type }) {
 
         if (response.success) {
           login(response.user);
-          setSuccessMessage("Sign-in successful! Redirecting...");
-
-          setTimeout(() => {
-            router.push("/courses");
-            handleClose();
-            setIsLoading(false);
-          }, 2000);
+          toast.success("Sign-in successful!");
+          handleClose();
+          setIsLoading(false);
         } else {
           setError(response.error || "Invalid email or password.");
           setIsLoading(false);
@@ -146,6 +148,7 @@ export default function AuthModal({ isOpen, onClose, type }) {
                         required
                         type="text"
                         name="firstName"
+                        placeholder="John"
                         value={formData.firstName}
                         onChange={handleInputChange}
                         className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
@@ -159,6 +162,7 @@ export default function AuthModal({ isOpen, onClose, type }) {
                         required
                         type="text"
                         name="lastName"
+                        placeholder="Duo"
                         value={formData.lastName}
                         onChange={handleInputChange}
                         className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
@@ -174,6 +178,7 @@ export default function AuthModal({ isOpen, onClose, type }) {
                     required
                     type="email"
                     name="email"
+                    placeholder="user@email.com"
                     value={formData.email}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
@@ -187,6 +192,7 @@ export default function AuthModal({ isOpen, onClose, type }) {
                     required
                     type="password"
                     name="password"
+                    placeholder="Pa$$w0rd!"
                     value={formData.password}
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
@@ -201,6 +207,7 @@ export default function AuthModal({ isOpen, onClose, type }) {
                       required
                       type="password"
                       name="confirmPassword"
+                      placeholder="Pa$$w0rd!"
                       value={formData.confirmPassword}
                       onChange={handleInputChange}
                       className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
