@@ -3,11 +3,15 @@ import mongoose, { Schema } from "mongoose";
 const enrollmentSchema = new Schema(
   {
     course: { type: Schema.Types.ObjectId, ref: "courses" },
-    card_num: {
+    paidAmount: {
+      type: Number,
+      required: true,
+    },
+    cardNumber: {
       type: String,
       required: true,
     },
-    expires: {
+    expiry: {
       type: String,
       required: true,
     },
@@ -15,11 +19,11 @@ const enrollmentSchema = new Schema(
       type: String,
       required: true,
     },
-    card_holder_name: {
+    name: {
       type: String,
       required: true,
     },
-    billing_address: {
+    address: {
       type: String,
       required: true,
     },
@@ -27,7 +31,7 @@ const enrollmentSchema = new Schema(
       type: String,
       required: true,
     },
-    zip: {
+    zipCode: {
       type: String,
       required: true,
     },

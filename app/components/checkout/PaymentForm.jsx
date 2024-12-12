@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { FaCreditCard, FaLock } from "react-icons/fa";
 import { useParams, useRouter } from "next/navigation";
 import LoadingUi from "../LoadingUi";
-import { getCourseById } from "@/server-actions";
+import { getCourseById, makePayment } from "@/server-actions";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "react-toastify";
 
@@ -46,6 +46,9 @@ const PaymentForm = () => {
 };
 
 const PaymentDetails = ({ courseData }) => {
+  const router = useRouter();
+  const { authData } = useAuth();
+
   const [formData, setFormData] = useState({
     cardNumber: "",
     expiry: "",
@@ -56,7 +59,6 @@ const PaymentDetails = ({ courseData }) => {
     zipCode: "",
   });
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState(null);
 
   const formatCardNumber = (value) => {
     const v = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
@@ -79,15 +81,34 @@ const PaymentDetails = ({ courseData }) => {
     return v;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      setStatus("success");
+    try {
+      const data = {
+        ...formData,
+        course: courseData._id,
+        paidAmount: courseData?.price + 9.9,
+      };
+
+      const userId = authData._id;
+
+      const result = await makePayment(data, userId);
+
+      if (result.success) {
+        toast.success("Enrollment successful");
+        setTimeout(() => {
+          router.push("/my-courses");
+        }, 2000);
+      } else {
+        toast.error("Something went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
       setLoading(false);
-    }, 2000);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -195,7 +216,7 @@ const PaymentDetails = ({ courseData }) => {
                 CVV
               </label>
               <input
-                type="text"
+                type="number"
                 name="cvv"
                 value={formData.cvv}
                 onChange={handleInputChange}
@@ -284,19 +305,6 @@ const PaymentDetails = ({ courseData }) => {
           >
             {loading ? "Processing..." : "Pay Now"}
           </button>
-
-          {/* Payment Status */}
-          {status && (
-            <div
-              className={`mt-4 text-center font-semibold ${
-                status === "success" ? "text-green-500" : "text-red-500"
-              }`}
-            >
-              {status === "success"
-                ? "Payment Successful!"
-                : "Payment Failed. Please try again."}
-            </div>
-          )}
         </form>
       </div>
     </div>

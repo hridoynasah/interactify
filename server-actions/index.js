@@ -1,5 +1,6 @@
 "use server";
 import { Courses } from "@/data/models/coursesSchema";
+import { Enrollments } from "@/data/models/enrollmentSchema";
 import { Users } from "@/data/models/usersSchema";
 import connectMongodb from "@/services/ConnectMongoose";
 
@@ -69,6 +70,25 @@ export const getCourseById = async (id) => {
     await connectMongodb();
     const result = await Courses.findById(id);
     return JSON.parse(JSON.stringify(result));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const makePayment = async (data, userId) => {
+  try {
+    await connectMongodb();
+    const result = await Enrollments.create(data);
+
+    if (result) {
+      await Users.findByIdAndUpdate(userId, {
+        $push: { purchased_courses: result._id },
+      });
+
+      return { success: true, data: JSON.parse(JSON.stringify(result)) };
+    } else {
+      return { success: false };
+    }
   } catch (error) {
     console.error(error);
   }
