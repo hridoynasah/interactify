@@ -6,6 +6,7 @@ import {
   FaGithub,
 } from "react-icons/fa";
 import Logo from "./Logo";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -30,24 +31,24 @@ export default function Footer() {
             <h3 className="text-white font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <a href="/" className="hover:text-primary">
+                <Link href="/" className="hover:text-primary">
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/about" className="hover:text-primary">
+                <Link href="/about" className="hover:text-primary">
                   About
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/features" className="hover:text-primary">
+                <Link href="/features" className="hover:text-primary">
                   Features
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/contact" className="hover:text-primary">
+                <Link href="/contact" className="hover:text-primary">
                   Contact
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -55,24 +56,24 @@ export default function Footer() {
             <h3 className="text-white font-semibold mb-4">Legal</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="hover:text-primary">
+                <Link href="#" className="hover:text-primary">
                   Privacy Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-primary">
+                <Link href="#" className="hover:text-primary">
                   Terms of Service
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-primary">
+                <Link href="#" className="hover:text-primary">
                   Cookie Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-primary">
+                <Link href="#" className="hover:text-primary">
                   Community Guidelines
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
