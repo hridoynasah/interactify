@@ -17,7 +17,7 @@ const ProfileMenu = () => {
     {
       icon: BookmarkIcon,
       text: "My Courses",
-      action: () => router.push("/my-courses"),
+      action: () => router.push(`/my-courses/${authData?._id}`),
     },
     {
       icon: Upload,
@@ -27,7 +27,7 @@ const ProfileMenu = () => {
     {
       icon: Users,
       text: "Community",
-      action: () => console.log("Settings clicked"),
+      action: () => router.push("/community"),
     },
     {
       icon: Settings,

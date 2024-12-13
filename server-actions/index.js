@@ -93,3 +93,22 @@ export const makePayment = async (data, userId) => {
     console.error(error);
   }
 };
+
+export const getUserPurchaseCourses = async (userId) => {
+  try {
+    await connectMongodb();
+    const result = await Users.findById(userId).populate({
+      path: "purchased_courses",
+      model: "enrollments",
+      populate: {
+        path: "course",
+        model: "courses",
+      },
+    });
+
+    return JSON.parse(JSON.stringify(result?.purchased_courses));
+  } catch (error) {
+    console.error("Error fetching user purchase courses:", error);
+    return null;
+  }
+};

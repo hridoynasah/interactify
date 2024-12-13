@@ -99,7 +99,7 @@ const PaymentDetails = ({ courseData }) => {
       if (result.success) {
         toast.success("Enrollment successful");
         setTimeout(() => {
-          router.push("/my-courses");
+          router.push(`/my-courses/${authData?._id}`);
         }, 2000);
       } else {
         toast.error("Something went wrong");

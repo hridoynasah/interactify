@@ -2,7 +2,7 @@ import { StarIcon, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-const CourseCard = ({ course }) => {
+const CourseCard = ({ course, purchased = false }) => {
   return (
     <div className="bg-white/10 rounded-xl overflow-hidden shadow-lg backdrop-blur-sm">
       <Image
@@ -38,12 +38,21 @@ const CourseCard = ({ course }) => {
         <div className="flex items-center justify-between">
           <span className="text-2xl font-bold text-white">${course.price}</span>
           <div className="space-x-2">
-            <Link
-              href={`checkout/${course._id}`}
-              className="px-4 py-2 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-            >
-              Buy Now
-            </Link>
+            {purchased ? (
+              <Link
+                href={course.link}
+                className="px-4 py-2 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+              >
+                Start Learning
+              </Link>
+            ) : (
+              <Link
+                href={`checkout/${course._id}`}
+                className="px-4 py-2 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+              >
+                Buy Now
+              </Link>
+            )}
           </div>
         </div>
       </div>
