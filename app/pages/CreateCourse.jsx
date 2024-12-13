@@ -1,175 +1,142 @@
-import { ArrowLeft } from "lucide-react";
+"use client";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function CreateCourse() {
+  const [showForm, setShowForm] = useState(false);
+  const router = useRouter();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    router.push("/create-course/new");
+  };
+
   return (
-    <div className="min-h-screen bg-black text-white">
-      <div className="max-w-3xl mx-auto p-6">
-        <button className="flex items-center text-blue-400 mb-6 hover:text-blue-300">
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Courses
-        </button>
+    <div className="bg-gray-900 text-white min-h-screen flex flex-col items-center justify-center">
+      {!showForm && (
+        <div className="text-center">
+          <h1 className="text-4xl font-bold mb-4">
+            Transform Your Expertise Into Impact
+          </h1>
+          <p className="mb-6 text-gray-300">
+            Join our platform and share your knowledge with students worldwide.
+            Turn your expertise into impact and income.
+          </p>
+          <button
+            onClick={() => setShowForm(true)}
+            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Join as Instructor
+          </button>
 
-        <h2 className="text-2xl font-bold mb-6">Create New Course</h2>
+          <div className="grid grid-cols-2 gap-6 mt-12">
+            <div className="bg-gray-800 p-6 rounded shadow">
+              <h3 className="text-xl font-semibold">Share Your Knowledge</h3>
+              <p className="text-gray-400">
+                Impact thousands of students worldwide by sharing your
+                expertise.
+              </p>
+            </div>
+            <div className="bg-gray-800 p-6 rounded shadow">
+              <h3 className="text-xl font-semibold">Earn Money</h3>
+              <p className="text-gray-400">
+                Generate passive income through course sales and student
+                enrollments.
+              </p>
+            </div>
+            <div className="bg-gray-800 p-6 rounded shadow">
+              <h3 className="text-xl font-semibold">Flexible Teaching</h3>
+              <p className="text-gray-400">
+                Create and manage courses on your own schedule.
+              </p>
+            </div>
+            <div className="bg-gray-800 p-6 rounded shadow">
+              <h3 className="text-xl font-semibold">Growing Community</h3>
+              <p className="text-gray-400">
+                Join a supportive community of instructors and learners.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
-        <form className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium mb-1">Title</label>
+      {showForm && (
+        <div className="bg-gray-800 p-8 rounded shadow-md w-full max-w-md my-28">
+          <h2 className="text-xl font-bold mb-4">Become an Instructor</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label className="block text-gray-300 mb-1">Full Name *</label>
               <input
                 type="text"
-                name="title"
-                className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
+                className="w-full p-2 rounded bg-gray-700 text-white"
                 required
               />
             </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Subtitle</label>
+            <div className="mb-4">
+              <label className="block text-gray-300 mb-1">Email *</label>
               <input
-                type="text"
-                name="subtitle"
-                className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
-              />
-            </div>
-
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium mb-1">
-                Description
-              </label>
-              <textarea
-                name="description"
-                rows="4"
-                className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
+                type="email"
+                className="w-full p-2 rounded bg-gray-700 text-white"
                 required
               />
             </div>
-
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium mb-1">
-                Course Thumbnail URL
-              </label>
-              <div className="flex gap-2">
-                <input
-                  type="url"
-                  name="thumbnailUrl"
-                  placeholder="https://..."
-                  className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
-                />
-              </div>
+            <div className="mb-4">
+              <label className="block text-gray-300 mb-1">Phone *</label>
+              <input
+                type="text"
+                className="w-full p-2 rounded bg-gray-700 text-white"
+                required
+              />
             </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Category</label>
-              <select
-                name="category"
-                className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
-              >
-                <option value="Development">Development</option>
-                <option value="IT & Software">IT & Software</option>
-                <option value="Business">Business</option>
-                <option value="Design">Design</option>
-                <option value="Marketing">Marketing</option>
-                <option value="Photography">Photography</option>
-                <option value="Music">Music</option>
+            <div className="mb-4">
+              <label className="block text-gray-300 mb-1">Expertise</label>
+              <select className="w-full p-2 rounded bg-gray-700 text-white">
+                <option>Web Development</option>
+                <option>Design</option>
+                <option>Marketing</option>
               </select>
             </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Level</label>
-              <select
-                name="level"
-                className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
-              >
-                <option value="Beginner">Beginner</option>
-                <option value="Intermediate">Intermediate</option>
-                <option value="Advanced">Advanced</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">Duration</label>
-              <input
-                type="text"
-                name="duration"
-                placeholder="e.g., 40 hours"
-                className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Price ($)
+            <div className="mb-4">
+              <label className="block text-gray-300 mb-1">
+                Years of Experience
               </label>
               <input
                 type="number"
-                name="price"
-                min="0"
-                step="0.01"
-                className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
-                required
+                className="w-full p-2 rounded bg-gray-700 text-white"
               />
             </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Instructor First Name
-              </label>
+            <div className="mb-4">
+              <label className="block text-gray-300 mb-1">Bio</label>
+              <textarea
+                className="w-full p-2 rounded bg-gray-700 text-white"
+                rows="4"
+              ></textarea>
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-300 mb-1">Resume/CV</label>
               <input
-                type="text"
-                name="instructorFirstName"
-                className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
-                required
+                type="file"
+                className="w-full p-2 rounded bg-gray-700 text-white"
               />
             </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Instructor Last Name
-              </label>
-              <input
-                type="text"
-                name="instructorLastName"
-                className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
-                required
-              />
+            <div className="flex justify-between">
+              <button
+                type="button"
+                onClick={() => setShowForm(false)}
+                className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Submit
+              </button>
             </div>
-
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium mb-1">
-                Instructor Email
-              </label>
-              <input
-                type="email"
-                name="instructorEmail"
-                className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
-                required
-              />
-            </div>
-
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium mb-1">
-                Promo Video URL
-              </label>
-              <input
-                type="url"
-                name="promoVideo"
-                placeholder="https://..."
-                className="w-full px-3 py-2 bg-dark border border-gray-700 rounded-md text-white focus:outline-none focus:border-primary"
-              />
-            </div>
-          </div>
-
-          <div className="flex justify-end">
-            <button
-              type="submit"
-              className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-black"
-            >
-              Create Course
-            </button>
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 }
